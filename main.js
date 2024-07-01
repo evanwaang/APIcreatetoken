@@ -1,77 +1,44 @@
 const fs = require('fs');
 const {createToken} = require('./src/create_token.js')
-const { NFTStorage, Blob,File} = require ('nft.storage')
+const axios = require('axios')
+const FormData = require('form-data')
+const uploadMD = require('./uploadMD.js')
 
-const {
-    NFT_STORAGE_TOKEN,
-    revokeMintBool,
-    revokeFreezeBool,
-    tokenInfo,
-    metaDataforToken
-} = require('./config.js')
+async function main(NFT_STORAGE_TOKEN, revokeMintBool, revokeFreezeBool, tokenInfo, metaDataforToken, connection, myKeyPair,) {
+    console.log("Got to main")
+    const metadata_url = await uploadMetaData(NFT_STORAGE_TOKEN, metaDataforToken)
 
-
-
-
-async function main() {
-
-    // uploadMetaData
-    const metadata_url = await uploadMetaData()
+    console.log("MD uploaded")
     if (!metadata_url){
         console.log("Metadata failed")
         return;
     }
     tokenInfo.metadata = metadata_url
 
-    // Create token
-    console.log("Creating Token...")
-    const mintAddress = await createToken(tokenInfo, revokeMintBool, revokeFreezeBool)
-    console.log(`Mint Link: https://solscan.io/token/${mintAddress.toString()}`)
 
+    console.log("Creating Token...")
+    const mintAddress = await createToken(connection, myKeyPair, tokenInfo, revokeMintBool, revokeFreezeBool)
+    console.log(`Mint Link: https://solscan.io/token/${mintAddress.toString()}`)
 
 }
 
 
 
 
-async function uploadMetaData() {
-    const endpoint = 'https://api.nft.storage' 
-    const storage = new NFTStorage({ endpoint, token: NFT_STORAGE_TOKEN })
-
-    // Store image
-    const data = await fs.promises.readFile('./image.png')
-    const cid1 = await storage.storeBlob(new Blob([data]))
-    const imageUrl = `https://${cid1}.ipfs.nftstorage.link`
-    const status1 = await storage.status(cid1)
-    if (status1.pin.status != 'pinned'){
-        console.log("Could not upload image, Status: ",status1.pin.status)
-        return;
-    }
-    console.log('Image Upload status: ',status1.pin.status)
-    
-    console.log("Image url: ",imageUrl)
-    metaDataforToken.image = imageUrl
+async function uploadMetaData(NFT_STORAGE_TOKEN, metaDataforToken) {
+    const src = './image.png';  // Path to your image file
+    data = fs.readFileSync(src);
+    const formData = new FormData();
+    console.log("Uploading metadata")
+      try {
+        uri = uploadMD(metaDataforToken.name, metaDataforToken.symbol, metaDataforToken.description, data);
+        return uri;
+      } catch (error) {
+        console.log("Error uploading metadata")
+        return null;
+      }
+}
 
 
-    // store as a json file
-    const jsonString = JSON.stringify(metaDataforToken, null, 2);
-    const file = new File([jsonString], "metadata.json", {type: "application/json"});
 
-    const cid = await storage.storeBlob(file)
-    const status = await storage.status(cid)
-
-    if (status1.pin.status != 'pinned'){
-        console.log("Could not upload Metadata, Status: ",status1.pin.status)
-        return;
-    }
-
-    console.log('MetaData Upload status: ',status.pin.status)
-    const metadata_url = `https://${cid}.ipfs.nftstorage.link`
-    console.log('Metadata URI: ', metadata_url)
-
-    
-    return metadata_url
-
-  }
-
-main()
+module.exports = main;

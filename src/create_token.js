@@ -21,9 +21,9 @@ const {
   PROGRAM_ID,
 } = require("@metaplex-foundation/mpl-token-metadata");
 
-const { connection, myKeyPair } = require("../config.js");
 
-async function createToken(tokenInfo, revokeMintBool, revokeFreezeBool) {
+
+async function createToken(connection, myKeyPair, tokenInfo, revokeMintBool, revokeFreezeBool) {
   const lamports = await getMinimumBalanceForRentExemptMint(connection);
   const mintKeypair = Keypair.generate();
   const myPublicKey = myKeyPair.publicKey;
@@ -58,7 +58,7 @@ async function createToken(tokenInfo, revokeMintBool, revokeFreezeBool) {
           uses: null,
           collection: null,
         },
-        isMutable: true,
+        isMutable: false,
         collectionDetails: null,
       },
     }
