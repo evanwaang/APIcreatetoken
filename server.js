@@ -13,7 +13,7 @@ const fs = require('fs');
 const endpoint = "https://mainnet.helius-rpc.com/?api-key=8b5bd2f5-c4b1-4230-9aa7-732bfe2ea9e6";
 const NFT_STORAGE_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI1NzM2MmYzNi0wOWUyLTQzOGUtODgzNi01NWJkM2YxMjAzNWEiLCJlbWFpbCI6ImV2YW53YW5nMjAwMkBwcm90b24ubWUiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJpZCI6IkZSQTEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX0seyJpZCI6Ik5ZQzEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiZWJmZDQyMTgyYTI5ZDM0ZjhiMjkiLCJzY29wZWRLZXlTZWNyZXQiOiI3MzA0YWMyZDRlMTE4YTkyN2ZiN2RjOTA3NDA3MzJmMWNlYzQ0ODEyYTMyZDcyYjE0NzU3MDQ1ZjY5N2IyNGNkIiwiaWF0IjoxNzE5Njk1Nzk3fQ.FbQ0bO2bPSEAOx-BTg2g0SBRpMsu7N99DZLIxUwPYck';
 
-let privateKey = null;
+
 let myKeyPair = null;
 
 const revokeMintBool = true
@@ -22,7 +22,7 @@ const revokeFreezeBool  = true
 const keypairFile = fs.readFileSync('/Users/evanwang/.config/solana/id.json');
 const secretKey = new Uint8Array(JSON.parse(keypairFile));
 const keypair = Keypair.fromSecretKey(secretKey);
-const uploadMetadata = require('./uploadMD');
+
 
 
 app.post('/create-token', async (req, res) => {
@@ -49,6 +49,6 @@ app.post('/create-token', async (req, res) => {
     
 });
 
-app.listen(3000, () => {
+app.listen(3001, () => {
     console.log('Server is running on port 3000');
 });
