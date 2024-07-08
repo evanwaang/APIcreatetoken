@@ -1,5 +1,4 @@
 const { Metaplex, keypairIdentity, irysStorage, toMetaplexFile } = require('@metaplex-foundation/js');
-const { Key } = require('@metaplex-foundation/mpl-token-metadata');
 const { Connection, clusterApiUrl, Keypair } = require('@solana/web3.js');
 
 const connection = new Connection(clusterApiUrl('mainnet-beta'));

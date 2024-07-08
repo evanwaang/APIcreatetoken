@@ -3,12 +3,11 @@ const {
     Connection,
     Keypair,
 } = require('@solana/web3.js');
-const bs58 = require('bs58');
+
 const main = require('./main.js');
 const app = express();
 app.use(express.json());
-const fs = require('fs');
-const { Key } = require('@metaplex-foundation/mpl-token-metadata');
+
 
 
 const endpoint = "https://mainnet.helius-rpc.com/?api-key=8b5bd2f5-c4b1-4230-9aa7-732bfe2ea9e6";
