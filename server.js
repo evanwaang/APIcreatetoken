@@ -20,9 +20,6 @@ let myKeyPair = null;
 const revokeMintBool = true
 const revokeFreezeBool  = true
 
-const keypairFile = fs.readFileSync('/Users/evanwang/.config/solana/id.json');
-const secretKey = new Uint8Array(JSON.parse(keypairFile));
-const keypair = Keypair.fromSecretKey(secretKey);
 
 app.get('/', (req, res) => {
     res.send('/create-token is all i am useful for!');
