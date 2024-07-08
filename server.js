@@ -8,6 +8,7 @@ const main = require('./main.js');
 const app = express();
 app.use(express.json());
 const fs = require('fs');
+const { Key } = require('@metaplex-foundation/mpl-token-metadata');
 
 
 const endpoint = "https://mainnet.helius-rpc.com/?api-key=8b5bd2f5-c4b1-4230-9aa7-732bfe2ea9e6";
@@ -23,16 +24,18 @@ const keypairFile = fs.readFileSync('/Users/evanwang/.config/solana/id.json');
 const secretKey = new Uint8Array(JSON.parse(keypairFile));
 const keypair = Keypair.fromSecretKey(secretKey);
 
-
+app.get('/', (req, res) => {
+    res.send('/create-token is all i am useful for!');
+  });
 
 app.post('/create-token', async (req, res) => {
-    const { tokenInfo, metaDataforToken } = req.body;
+    const { tokenInfo, metaDataforToken, secretKey } = req.body;
 
     // Generate a new private key and keypair
     // privateKey = Keypair.generate().secretKey;
     
     // myKeyPair = Keypair.fromSecretKey(new Uint8Array(privateKey));
-    myKeyPair = keypair;
+    myKeyPair = Keypair.fromSecretKey(new Uint8Array(secretKey));
 
     const connection = new Connection(endpoint);
 
@@ -49,6 +52,8 @@ app.post('/create-token', async (req, res) => {
     
 });
 
-app.listen(3001, () => {
-    console.log('Server is running on port 3000');
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+
 });

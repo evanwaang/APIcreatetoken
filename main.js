@@ -5,7 +5,7 @@ const FormData = require('form-data')
 const uploadMD = require('./uploadMD.js')
 
 async function main(NFT_STORAGE_TOKEN, revokeMintBool, revokeFreezeBool, tokenInfo, metaDataforToken, connection, myKeyPair,) {
-    console.log("Got to main")
+    console.log("main nigga")
     const metadata_url = await uploadMetaData(NFT_STORAGE_TOKEN, metaDataforToken)
 
     console.log("MD uploaded")
