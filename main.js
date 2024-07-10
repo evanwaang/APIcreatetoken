@@ -25,6 +25,7 @@ async function main(NFT_STORAGE_TOKEN, revokeMintBool, revokeFreezeBool, tokenIn
     const mintAddress = await createToken(connection, myKeyPair, tokenInfo, revokeMintBool, revokeFreezeBool)
     console.log(`Mint Link: https://solscan.io/token/${mintAddress.toString()}`)
 
+    
 }
 
 
